@@ -5,6 +5,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 @Injectable()
 export class UserService {
   create(createUserDto: CreateUserDto) {
+    // 调用Modle
     return 'This action adds a 🚀 new user';
   }
 
