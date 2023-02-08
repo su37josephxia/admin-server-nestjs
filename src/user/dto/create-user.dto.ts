@@ -4,11 +4,11 @@ import { IsNotEmpty, Matches, Max, Min, Length, IsEmail } from 'class-validator'
 
 
 export class CreateUserDto {
-    @ApiProperty({ example: '18321312321' })
+    @ApiProperty({ example: '183213123211' })
     @Matches(/^1\d{10}$/g, { message: '请输入手机号' })
     phoneNumber: string;
 
-    @ApiProperty({ example: '11111' })
+    @ApiProperty({ example: '111111' })
     @IsNotEmpty()
     @Length(6, 10)
     password: string;

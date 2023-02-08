@@ -1,10 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { SystemService } from '../shared/services/system.service';
 
 @Injectable()
 export class UserService {
+  constructor(private readonly systemService: SystemService) {
+
+  }
+
   create(createUserDto: CreateUserDto) {
+
+
+    console.log(this.systemService.getEnv())
+
     // 调用Modle
     return 'This action adds a 🚀 new user';
   }
