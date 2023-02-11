@@ -4,7 +4,7 @@ import { IsNotEmpty, Matches, Max, Min, Length, IsEmail } from 'class-validator'
 
 
 export class CreateUserDto {
-    @ApiProperty({ example: '183213123211' })
+    @ApiProperty({ example: '18321312321' })
     @Matches(/^1\d{10}$/g, { message: '请输入手机号' })
     phoneNumber: string;
 
