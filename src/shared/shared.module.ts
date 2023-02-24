@@ -1,11 +1,7 @@
 import { Module } from '@nestjs/common';
-import { SystemService } from './services/system.service';
-
+import { SystemService } from './system.service';
 @Module({
-  controllers: [],
-
-  imports: [],
-  exports: [SystemService],
-  providers: [SystemService],
+    exports: [SystemService],
+    providers: [SystemService]
 })
-export class SharedModule { }
+export class ShareModule { }
