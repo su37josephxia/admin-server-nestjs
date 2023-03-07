@@ -2,6 +2,7 @@
 import { ConfigService } from "@nestjs/config";
 import { createLogger, Logger, format, transports } from "winston";
 
+
 export class AppLogger {
     private context?: string;
     private logger: Logger
@@ -10,9 +11,11 @@ export class AppLogger {
         this.context = context
     }
 
-    constructor(private readonly configService: ConfigService) {
+    constructor(
+        private readonly configService: ConfigService) {
+
         this.logger = createLogger({
-            level: configService.get<string>('LOGGER_LEVEL'), // 分级
+            level: process.env.LOGGER_LEVEL,
             format: format.combine(
                 format.timestamp(),
                 format.prettyPrint()
