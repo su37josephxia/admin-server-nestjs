@@ -14,6 +14,7 @@ export class UserController {
     summary: '新增用户'
   })
   create(@Body() createUserDto: CreateUserDto) {
+
     return this.userService.create(createUserDto);
   }
 
