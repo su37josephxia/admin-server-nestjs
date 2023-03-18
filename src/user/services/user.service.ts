@@ -5,6 +5,7 @@ import { SystemService } from '../../shared/system.service';
 import { MongoRepository } from 'typeorm';
 import { User } from '../entities/user.mongo.entity';
 import { AppLogger } from 'src/shared/logger/logger.service';
+import { PaginationParamsDto } from '../../shared/dtos/pagination-params.dto';
 
 
 @Injectable()
@@ -35,9 +36,16 @@ export class UserService {
     })
   }
 
-  async findAll(): Promise<{ data: User[], count: number }> {
+  async findAll({ pageSize, page }: PaginationParamsDto): Promise<{ data: User[], count: number }> {
 
-    const [data, count] = await this.userRepository.findAndCount({})
+    const [data, count] = await this.userRepository.findAndCount({
+      order: { name: 'DESC' },
+      skip: (page - 1) * pageSize,
+      take: (pageSize * 1),
+      cache: true
+    })
+
+    // 100 => 第二页 5 6-10
     return {
       data, count
     }

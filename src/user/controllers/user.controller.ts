@@ -1,9 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpStatus, HttpException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpStatus, HttpException, Query } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { CreateUserDto } from '../dtos/create-user.dto';
 import { UpdateUserDto } from '../dtos/update-user.dto';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { PaginationParamsDto } from '../../shared/dtos/pagination-params.dto';
 
 @Controller('user')
 @ApiTags('用户管理')
@@ -35,8 +36,9 @@ export class UserController {
   })
   @Get()
   async findAll(
+    @Query() query: PaginationParamsDto
   ) {
-    const { data, count } = await this.userService.findAll();
+    const { data, count } = await this.userService.findAll(query);
     return {
       data,
       meta: { total: count }
