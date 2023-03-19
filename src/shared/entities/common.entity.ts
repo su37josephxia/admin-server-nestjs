@@ -5,7 +5,7 @@ export abstract class Common {
     _id: ObjectID
 
     @CreateDateColumn()
-    createAt: Date
+    createdAt: Date
 
     @UpdateDateColumn()
     updatedAt: Date
