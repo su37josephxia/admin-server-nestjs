@@ -19,21 +19,9 @@ export class UserService {
   }
 
   create(createUserDto: CreateUserDto) {
-    // this.logger.info(null, 'User Create ....', {
-    //   a: 123
-    // })
-
-    // this.logger.debug(null, 'Debug User Create ....', {
-    //   a: 123
-    // })
-    // console.log('Env:', this.systemService.getEnv())
-
     // 调用Modle
     // return 'This action adds a 🚀 new user';
-    return this.userRepository.save({
-      name: 'haha',
-      email: '1@1.com'
-    })
+    return this.userRepository.save(createUserDto)
   }
 
   async findAll({ pageSize, page }: PaginationParamsDto): Promise<{ data: User[], count: number }> {
