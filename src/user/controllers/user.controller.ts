@@ -7,6 +7,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PaginationParamsDto } from '../../shared/dtos/pagination-params.dto';
 import { UploadDTO } from '../dtos/upload.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { encryptFileMD5 } from '../../shared/utils/cryptogram.util';
 
 @Controller('user')
 @ApiTags('用户管理')
@@ -88,6 +89,8 @@ export class UserController {
   ) {
 
     console.log('upload..', file)
+
+    console.log('hash:', encryptFileMD5(file.buffer))
 
   }
 
