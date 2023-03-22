@@ -18,6 +18,7 @@ specifiers:
   '@typescript-eslint/parser': ^5.0.0
   class-transformer: ^0.5.1
   class-validator: ^0.14.0
+  crypto: ^1.0.1
   eslint: ^8.0.1
   eslint-config-prettier: ^8.3.0
   eslint-plugin-prettier: ^4.0.0
@@ -47,6 +48,7 @@ dependencies:
   '@nestjs/swagger': registry.npmmirror.com/@nestjs/swagger/6.1.3_4fhhxyztwhblafku3krlstrun4
   class-transformer: registry.npmmirror.com/class-transformer/0.5.1
   class-validator: registry.npmmirror.com/class-validator/0.14.0
+  crypto: registry.npmmirror.com/crypto/1.0.1
   mongodb: registry.npmmirror.com/mongodb/3.7.3
   mongoose: registry.npmmirror.com/mongoose/7.0.2
   reflect-metadata: registry.npmmirror.com/reflect-metadata/0.1.13
@@ -2767,6 +2769,13 @@ packages:
       shebang-command: registry.npmmirror.com/shebang-command/2.0.0
       which: registry.npmmirror.com/which/2.0.2
     dev: true
+
+  registry.npmmirror.com/crypto/1.0.1:
+    resolution: {integrity: sha512-VxBKmeNcqQdiUQUW2Tzq0t377b54N2bMtXO/qiLa+6eRRmmC4qT3D4OnTGoT/U6O9aklQ/jTwbOtRMTTY8G0Ig==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/crypto/-/crypto-1.0.1.tgz}
+    name: crypto
+    version: 1.0.1
+    deprecated: This package is no longer supported. It's now a built-in Node module. If you've depended on crypto, you should switch to the one that's built-in.
+    dev: false
 
   registry.npmmirror.com/date-fns/2.29.3:
     resolution: {integrity: sha512-dDCnyH2WnnKusqvZZ6+jA1O51Ibt8ZMRNkDZdyAyK4YfbDwa/cEmuztzG5pk6hqlp9aSBPYcjOlktquahGwGeA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/date-fns/-/date-fns-2.29.3.tgz}
