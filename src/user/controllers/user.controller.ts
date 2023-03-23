@@ -87,11 +87,7 @@ export class UserController {
     @Body() uploadDto: UploadDTO,
     @UploadedFile() file
   ) {
-
-    console.log('upload..', file)
-
-    console.log('hash:', encryptFileMD5(file.buffer))
-
+    return this.userService.uploadAvatar(file)
   }
 
 

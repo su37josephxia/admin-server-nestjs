@@ -8,6 +8,7 @@ import { AppLogger } from 'src/shared/logger/logger.service';
 import { PaginationParamsDto } from '../../shared/dtos/pagination-params.dto';
 import { makeSalt } from 'src/shared/utils/cryptogram.util';
 import { encryptPassword } from '../../shared/utils/cryptogram.util';
+import { UploadService } from '@/shared/upload/upload.service';
 
 
 @Injectable()
@@ -15,7 +16,8 @@ export class UserService {
   constructor(private readonly systemService: SystemService,
     @Inject('USER_REPOSITORY')
     private readonly userRepository: MongoRepository<User>,
-    private readonly logger: AppLogger
+    private readonly logger: AppLogger,
+    private readonly uploadService: UploadService
   ) {
     this.logger.setContext(UserService.name)
   }
@@ -66,6 +68,12 @@ export class UserService {
   async remove(id: string): Promise<any> {
     return await this.userRepository.delete(id)
   }
+
+  async uploadAvatar(file) {
+    const { url } = await this.uploadService.upload(file)
+    return { data: url }
+  }
+
 
   getPassword(password) {
     const salt = makeSalt()
