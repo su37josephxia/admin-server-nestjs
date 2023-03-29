@@ -47,12 +47,9 @@ export class AuthController {
     @UseGuards(AuthGuard('jwt'))
     async info(@Req() req: any): Promise<any> {
         const data = await this.authService.info(req.user.id)
-        delete data.password
-        delete data.salt
+        // delete data.password
+        // delete data.salt
         return { data }
-
-
-        return { ok: 1 }
     }
 
 }
