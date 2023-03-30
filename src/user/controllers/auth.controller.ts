@@ -3,7 +3,7 @@ import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagg
 import { BaseApiErrorResponse, SwaggerBaseApiResponse } from '../../shared/dtos/base-api-response.dto';
 import { LoginDTO } from "../dtos/login.dto";
 import { AuthService } from "../services/auth.service";
-import { UserInfoDto } from '../dtos/auth.dto';
+import { UserInfoDto, RegisterCodeDTO } from '../dtos/auth.dto';
 import { AuthGuard } from "@nestjs/passport";
 
 @ApiTags('认证鉴权')
@@ -50,6 +50,28 @@ export class AuthController {
         // delete data.password
         // delete data.salt
         return { data }
+    }
+
+    @ApiOperation({
+        summary: '短信验证码',
+    })
+    @ApiResponse({
+        status: HttpStatus.OK,
+        type: SwaggerBaseApiResponse(UserInfoDto),
+    })
+    @ApiResponse({
+        status: HttpStatus.NOT_FOUND,
+        type: BaseApiErrorResponse,
+    })
+    @Post('registerCode')
+    async registerCode(@Body() registerCodeDto: RegisterCodeDTO,): Promise<any> {
+
+        const code = await this.authService.registerCode(registerCodeDto)
+
+        return {
+            msg: '验证码已生成',
+            data: { code }
+        }
     }
 
 }

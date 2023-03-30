@@ -4,8 +4,9 @@ import { User } from "../entities/user.mongo.entity";
 import { ObjectID, MongoRepository } from 'typeorm';
 import { Inject, NotFoundException } from "@nestjs/common";
 import { encryptPassword } from '../../shared/utils/cryptogram.util';
-import { UserInfoDto } from "../dtos/auth.dto";
+import { UserInfoDto, RegisterCodeDTO } from '../dtos/auth.dto';
 import { Role } from "../entities/role.mongo.entity";
+import { InjectRedis, Redis } from "@nestjs-modules/ioredis";
 
 export class AuthService {
     constructor(
@@ -15,8 +16,10 @@ export class AuthService {
         private userRepository: MongoRepository<User>,
 
         @Inject('ROLE_REPOSITORY')
-        private roleRepository: MongoRepository<Role>
+        private roleRepository: MongoRepository<Role>,
 
+        @InjectRedis()
+        private readonly redis: Redis
     ) {
 
     }
@@ -71,5 +74,32 @@ export class AuthService {
 
         return data
 
+    }
+    /**
+     * 获取验证码
+     */
+    async registerCode(dto: RegisterCodeDTO) {
+
+        const { phoneNumber } = dto
+        const redisCode = await this.redis.get('verifyCode' + phoneNumber)
+        if (redisCode !== null) {
+            // 未过期
+            throw new NotFoundException('验证码未过期')
+        }
+
+        // 获取随意验证码
+        const code = this.generateCode()
+
+        // redis存 手机号： 验证码 附加一个 60s 过期时间
+        await this.redis.set('verifyCode' + phoneNumber, code, 'EX', 60)
+        console.log('生成验证码:' + code)
+
+        // TODO 调用短信api
+        return
+    }
+
+    generateCode() {
+        // 4位随机码
+        return [0, 0, 0, 0].map(() => parseInt(Math.random() * 10 + '')).join('')
     }
 }
