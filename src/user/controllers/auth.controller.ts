@@ -74,4 +74,15 @@ export class AuthController {
         }
     }
 
+    @ApiOperation({
+        summary: '图形验证码',
+    })
+    @Get('captcha')  //当请求该接口时，返回一张随机图片验证码
+    async getCaptcha() {
+        const data = await this.authService.getCaptcha()
+        return {
+            data
+        }
+    }
+
 }

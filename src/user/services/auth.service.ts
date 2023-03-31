@@ -3,10 +3,11 @@ import { LoginDTO } from '../dtos/login.dto';
 import { User } from "../entities/user.mongo.entity";
 import { ObjectID, MongoRepository } from 'typeorm';
 import { Inject, NotFoundException } from "@nestjs/common";
-import { encryptPassword } from '../../shared/utils/cryptogram.util';
+import { encryptPassword, makeSalt } from '../../shared/utils/cryptogram.util';
 import { UserInfoDto, RegisterCodeDTO } from '../dtos/auth.dto';
 import { Role } from "../entities/role.mongo.entity";
 import { InjectRedis, Redis } from "@nestjs-modules/ioredis";
+import { CaptchaService } from '../../shared/captcha/captcha.service';
 
 export class AuthService {
     constructor(
@@ -19,7 +20,9 @@ export class AuthService {
         private roleRepository: MongoRepository<Role>,
 
         @InjectRedis()
-        private readonly redis: Redis
+        private readonly redis: Redis,
+
+        private readonly captchaService: CaptchaService
     ) {
 
     }
@@ -102,4 +105,20 @@ export class AuthService {
         // 4位随机码
         return [0, 0, 0, 0].map(() => parseInt(Math.random() * 10 + '')).join('')
     }
+
+    async getCaptcha() {
+        const { text, data } = await this.captchaService.captcha()
+
+        const id = makeSalt(4)
+
+        console.log('图形验证码:', text)
+
+        this.redis.set('captcha' + id, text, "EX", 600)
+
+        const image = `data:image/svg+xml;base64,${Buffer.from(data).toString('base64')}`
+
+        return { id, image }
+
+    }
+
 }
