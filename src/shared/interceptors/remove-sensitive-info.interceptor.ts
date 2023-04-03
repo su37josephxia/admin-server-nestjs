@@ -27,6 +27,7 @@ export class RemoveSensitiveUserInfoInterceptor implements NestInterceptor {
                 this.delValue(data[key], targetKey)
             }
         }
+        return data
     }
 
 }
