@@ -3,7 +3,7 @@ import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagg
 import { BaseApiErrorResponse, SwaggerBaseApiResponse } from '../../shared/dtos/base-api-response.dto';
 import { LoginDTO } from "../dtos/login.dto";
 import { AuthService } from "../services/auth.service";
-import { UserInfoDto, RegisterCodeDTO } from '../dtos/auth.dto';
+import { UserInfoDto, RegisterCodeDTO, RegisterSMSDTO, } from '../dtos/auth.dto';
 import { AuthGuard } from "@nestjs/passport";
 
 @ApiTags('认证鉴权')
@@ -83,6 +83,24 @@ export class AuthController {
         return {
             data
         }
+    }
+
+    @ApiOperation({
+        summary: '短信用户注册/登录',
+    })
+    @ApiResponse({
+        status: HttpStatus.OK,
+        type: SwaggerBaseApiResponse(RegisterSMSDTO),
+    })
+    @ApiResponse({
+        status: HttpStatus.NOT_FOUND,
+        type: BaseApiErrorResponse,
+    })
+    @Post('registerBySMS')
+    async registerBySMS(
+        @Body() registerDTO: RegisterSMSDTO
+    ): Promise<any> {
+        return this.authService.registerBySMS(registerDTO)
     }
 
 }

@@ -13,7 +13,6 @@ export class RemoveSensitiveUserInfoInterceptor implements NestInterceptor {
                 // 全局消除
                 this.delValue(res, 'password')
                 this.delValue(res, 'salt')
-                console.log('res', res)
                 return res
             })
         )
