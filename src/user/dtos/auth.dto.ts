@@ -3,7 +3,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, Matches, IsString } from 'class-validator';
 import { regMobileCN } from "@/shared/utils/regex.util";
 
-
 export class RegisterSMSDTO {
 
     /**
@@ -21,14 +20,6 @@ export class RegisterSMSDTO {
     @ApiProperty({ example: '0000' })
     readonly smsCode: string;
 
-
-    /**
-     * 图形验证码
-     */
-    @IsNotEmpty({ message: '请输入图形验证码' })
-    @ApiProperty({ example: '0000' })
-    readonly verifyCode: string;
-
 }
 
 export class RegisterCodeDTO {
@@ -36,7 +27,7 @@ export class RegisterCodeDTO {
     /**
      * 手机号（系统唯一）
      */
-    @Matches(regMobileCN, { message: '请输入正确手机号' })
+    // @Matches(regMobileCN, { message: '请输入正确手机号' })
     @IsNotEmpty({ message: '请输入手机号' })
     @ApiProperty({ example: '13611177420' })
     readonly phoneNumber: string;
