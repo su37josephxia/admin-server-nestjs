@@ -3,14 +3,15 @@ import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagg
 import { BaseApiErrorResponse, SwaggerBaseApiResponse } from '../../shared/dtos/base-api-response.dto';
 import { LoginDTO } from "../dtos/login.dto";
 import { AuthService } from "../services/auth.service";
-import { UserInfoDto, RegisterCodeDTO, RegisterSMSDTO, } from '../dtos/auth.dto';
+import { UserInfoDto, RegisterCodeDTO, RegisterSMSDTO } from '../dtos/auth.dto';
 import { AuthGuard } from "@nestjs/passport";
+import { UserService } from "../services/user.service";
 
 @ApiTags('认证鉴权')
 @Controller('auth')
 export class AuthController {
     constructor(
-        private authService: AuthService,
+        private authService: AuthService
     ) { }
 
     @ApiOperation({

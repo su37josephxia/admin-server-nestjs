@@ -4,10 +4,11 @@ import { User } from "../entities/user.mongo.entity";
 import { ObjectID, MongoRepository } from 'typeorm';
 import { Inject, NotFoundException } from "@nestjs/common";
 import { encryptPassword, makeSalt } from '../../shared/utils/cryptogram.util';
-import { UserInfoDto, RegisterCodeDTO, RegisterSMSDTO, RegisterDTO } from '../dtos/auth.dto';
+import { UserInfoDto, RegisterCodeDTO, RegisterDTO, RegisterSMSDTO } from '../dtos/auth.dto';
 import { Role } from "../entities/role.mongo.entity";
 import { InjectRedis, Redis } from "@nestjs-modules/ioredis";
 import { CaptchaService } from '../../shared/captcha/captcha.service';
+import { UserService } from "./user.service";
 
 export class AuthService {
     constructor(
@@ -22,7 +23,9 @@ export class AuthService {
         @InjectRedis()
         private readonly redis: Redis,
 
-        private readonly captchaService: CaptchaService
+        private readonly captchaService: CaptchaService,
+
+        private userService: UserService
     ) {
 
     }
@@ -82,13 +85,14 @@ export class AuthService {
      * 获取验证码
      */
     async registerCode(dto: RegisterCodeDTO) {
-        console.log("registerCode:", dto)
+
+
         const { phoneNumber, captchaCode, captchaId } = dto
 
-        // 验证图形验证码
-        const captcha = await this.redis.get('captcha' + dto.captchaId);
-        if (!captcha || captcha.toLocaleLowerCase() !== dto.captchaCode.toLocaleLowerCase()) {
-            throw new NotFoundException('图形验证码错误')
+        // 校验图形验证码
+        const captcha = await this.redis.get('captcha' + captchaId)
+        if (!captcha || captcha.toLocaleLowerCase() !== captchaCode.toLocaleLowerCase()) {
+            throw new NotFoundException('图形验证错误')
         }
 
         const redisCode = await this.redis.get('verifyCode' + phoneNumber)
@@ -127,7 +131,6 @@ export class AuthService {
         return { id, image }
 
     }
-
 
     /**
    * 短信注册
@@ -188,7 +191,7 @@ export class AuthService {
         // const salt = makeSalt(); // 制作密码盐
         // const hashPassword = encryptPassword(password, salt);  // 加密密码
 
-        const { salt, hashPassword } = this.getPassword(password)
+        const { salt, hashPassword } = this.userService.getPassword(password)
 
         const newUser: User = new User()
         newUser.name = name
@@ -223,10 +226,5 @@ export class AuthService {
     }
 
 
-    getPassword(password) {
-        const salt = makeSalt(); // 制作密码盐
-        const hashPassword = encryptPassword(password, salt);  // 加密密码
-        return { salt, hashPassword }
-    }
 
 }
