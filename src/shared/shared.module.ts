@@ -25,4 +25,4 @@ import { CaptchaService } from './captcha/captcha.service';
         AppLoggerModule
     ]
 })
-export class ShareModule { }
+export class SharedModule { }
