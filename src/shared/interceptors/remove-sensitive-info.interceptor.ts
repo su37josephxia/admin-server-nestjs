@@ -10,6 +10,7 @@ export class RemoveSensitiveUserInfoInterceptor implements NestInterceptor {
         // console.log('request', request.body)
         return next.handle().pipe(
             map(res => {
+                res = JSON.parse(JSON.stringify(res))
                 // 全局消除
                 this.delValue(res, 'password')
                 this.delValue(res, 'salt')
