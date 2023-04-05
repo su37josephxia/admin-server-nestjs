@@ -81,6 +81,23 @@ export class MenuController {
         }
     }
 
+    @ApiOperation({
+        summary: '文章导入',
+    })
+    @Post('/article/import')
+    @ApiConsumes('multipart/form-data')
+    @UseInterceptors(FileInterceptor('file'))
+    @ApiBearerAuth()
+    @UseGuards(AuthGuard('jwt'))
+    async articleImport(@UploadedFile() file,
+        @Body() uploadDTO: UploadDTO,) {
+        // 执行上传
+        this.menuService.import(file)
+        return {
+            ok: 1
+        }
+    }
+
 
 
 
