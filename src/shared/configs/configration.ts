@@ -18,6 +18,10 @@ export default (): any => (
         },
         redis: {
             url: process.env.REDIS_URL
+        },
+        cms: {
+            validateToken: process.env.NEST_VALIDATE_TOKEN,
+            host: process.env.NEXT_HOST
         }
     }
 )
