@@ -1,0 +1,22 @@
+version: '3.3'
+services:
+  mongo:
+    image: mongo
+    restart: always
+    volumes:
+      - ./mongodb/data:/data/db
+      - ./mongodb/dump:/dump
+    ports:
+      - 27017:27017
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    depends_on:
+      - mongo
+  redis:
+    image: redis
+    command: redis-server --requirepass arco666psw
+    ports:
+      - "6379:6379"

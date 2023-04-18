@@ -7,7 +7,11 @@ import { AppLoggerModule } from './logger/logger.module';
 import { UploadService } from './upload/upload.service';
 import * as svgCaptcha from 'svg-captcha';
 import { CaptchaService } from './captcha/captcha.service';
+import { SystemController } from './controllers/system.controller';
 @Module({
+    controllers: [
+        SystemController,
+    ],
     exports: [
         SystemService,
         ConfigModule,
