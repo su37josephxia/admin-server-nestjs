@@ -20,10 +20,8 @@ export const DatabaseProviders = [
                 logging: configService.get<boolean>('database.logging'),
                 synchronize: configService.get<boolean>('database.synchronize'),
             }
-            console.log('=====config', config)
             const ds = new DataSource(config)
             await ds.initialize()
-            console.log('init..')
             return ds
         }
     }

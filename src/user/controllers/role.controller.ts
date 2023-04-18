@@ -3,7 +3,7 @@ import { RoleService } from '../services/role.service';
 import { CreateRoleDto } from '../dtos/role.dto';
 import { ApiOperation, ApiTags, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { PaginationParamsDto } from '../../shared/dtos/pagination-params.dto'
-import { BaseApiErrorResponse, SwaggerBaseApiResponse } from 'src/shared/dtos/base-api-response.dto';
+import { BaseApiErrorResponse, SwaggerBaseApiResponse } from '@/shared/dtos/base-api-response.dto';
 
 
 @ApiTags('角色')
