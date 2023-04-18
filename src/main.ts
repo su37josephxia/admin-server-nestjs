@@ -7,10 +7,18 @@ import { join } from 'path';
 import { RemoveSensitiveUserInfoInterceptor } from './shared/interceptors/remove-sensitive-info.interceptor';
 import helmet from 'helmet'
 
+import rateLimit from 'express-rate-limit'
+
+
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   app.use(helmet())
+
+  app.use(rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 3
+  }))
 
 
   app.useGlobalPipes(new ValidationPipe({
