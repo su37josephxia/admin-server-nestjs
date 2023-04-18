@@ -5,9 +5,13 @@ import { generateDocument } from './doc';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import { RemoveSensitiveUserInfoInterceptor } from './shared/interceptors/remove-sensitive-info.interceptor';
+import helmet from 'helmet'
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+
+  app.use(helmet())
+
 
   app.useGlobalPipes(new ValidationPipe({
     forbidUnknownValues: false
